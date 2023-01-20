@@ -33,8 +33,8 @@ public class FacultyController {
     }
 
     @PutMapping
-    public ResponseEntity<Faculty> editFaculty(@RequestBody long id, Faculty faculty) {
-        var editedFaculty = facultyService.editFaculty(id, faculty);
+    public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
+        var editedFaculty = facultyService.editFaculty(faculty);
         if (editedFaculty == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -47,13 +47,20 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/byColor")
-    public ResponseEntity<Collection<Faculty>> getFacultiesByColor(@RequestParam("color") String color) {
+    @GetMapping
+    public ResponseEntity<Collection<Faculty>> getFacultiesByColor(@RequestParam String color) {
         if (color != null && !color.isBlank()) {
             var facultyByColor = facultyService.getFacultyByColor(color);
             return ResponseEntity.ok(facultyByColor);
         }
         return ResponseEntity.ok(Collections.emptyList());
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<Collection<Faculty>> getAllFaculties() {
+        facultyService.getAllFaculties();
+        return ResponseEntity.ok().build();
+    }
+
 
 }

@@ -2,57 +2,55 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Service
 public class StudentService {
-    private final HashMap<Long, Student> students = new HashMap<>();
+
+    private final StudentRepository studentRepository;
+
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     private final Set<Student> filteredStudent = new HashSet<>();
-    private long lastId = 0;
 
-//    public static void addStudent (Student student) {
-//        students//закончил здесь
-//    }
 
     public Student createStudent(Student student) {
-        student.setId(++lastId);
-        students.put(student.getId(), student);
-        return student;
+        return studentRepository.save(student);
     }
 
     public Student getStudentById(long id) {
-        return students.get(id);
+        return studentRepository.findById(id).get();
     }
 
-    public Student editStudent(long id, Student student) {
-        if (!students.containsKey(id)) {
-            return null;
-        }
-        students.put(id, student);
-        return student;
+    public Student editStudent(Student student) {
+        return studentRepository.save(student);
     }
 
-    public Student deleteStudent(long id) {
-        return students.remove(id);
+    public void deleteStudent(long id) {
+        studentRepository.deleteById(id);
     }
 
     public Set<Student> getStudentsByAge(int age) {
         filteredStudent.clear();
-        for (Student student : students.values()) {
-            if (student.getAge() == age) {
+        Collection<Student> students = getAllStudents();
+        for (Student student : students) {
+            if (student.getAge()==age) {
                 filteredStudent.add(student);
             }
         }
         return filteredStudent;
     }
 
-    public String getAllStudents() {
-        return students.toString();
+    public Collection<Student> getAllStudents() {
+        return studentRepository.findAll();
     }
 }
 

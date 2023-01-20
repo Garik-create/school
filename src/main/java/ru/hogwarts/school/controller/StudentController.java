@@ -6,6 +6,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
+import java.util.Collection;
 import java.util.Set;
 
 @RestController
@@ -18,7 +19,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student createFaculty(@RequestBody Student student) {
+    public Student createStudent(@RequestBody Student student) {
 
         return studentService.createStudent(student);
     }
@@ -33,8 +34,8 @@ public class StudentController {
     }
 
     @PutMapping
-    public ResponseEntity<Student> editStudent(@RequestBody long id, Student student) {
-        var editedStudent = studentService.editStudent(id, student);
+    public ResponseEntity<Student> editStudent(@RequestBody Student student) {
+        var editedStudent = studentService.editStudent(student);
         if (editedStudent == null) {
             ResponseEntity.badRequest().build();
         }
@@ -43,21 +44,26 @@ public class StudentController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Student> deleteStudent(@PathVariable Long id) {
-        var student = studentService.deleteStudent(id);
-        return ResponseEntity.ok(student);
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/byAge")
-    public ResponseEntity<Set<Student>> getStudentsByAge(@RequestParam("age") int age) {
-        var students = studentService.getStudentsByAge(age);
-        if (students.isEmpty()) {
-            ResponseEntity.notFound().build();
+    @GetMapping
+    public ResponseEntity<Set<Student>> getStudentsByAge(@RequestParam(required = false) Integer age) {
+        if (age != null) {
+            var students = studentService.getStudentsByAge(age);
+            if (students.isEmpty()) {
+                ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(students);
         }
-        return ResponseEntity.ok(students);
+        studentService.getAllStudents();
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/all")
-    public String getAllStudents() {
-        return studentService.getAllStudents();
-    }
+//    @GetMapping
+//    public ResponseEntity<Collection<Student>> getAllStudents() {
+//        studentService.getAllStudents();
+//        return ResponseEntity.ok().build();
+//    }
 }
