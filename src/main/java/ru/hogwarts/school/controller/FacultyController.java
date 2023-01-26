@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
@@ -23,8 +24,8 @@ public class FacultyController {
         return facultyService.createFaculty(faculty);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Faculty> getFacultyBiId(@PathVariable("id") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Faculty> getFacultyBiId(@PathVariable Long id) {
         var faculty = facultyService.getFacultyById(id);
         if (faculty == null) {
             return ResponseEntity.notFound().build();
@@ -41,8 +42,8 @@ public class FacultyController {
         return ResponseEntity.ok(editedFaculty);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Faculty> deleteFaculty(@PathVariable("id") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long id) {
         facultyService.deleteFacultyById(id);
         return ResponseEntity.ok().build();
     }
@@ -58,9 +59,27 @@ public class FacultyController {
 
     @GetMapping("/all")
     public ResponseEntity<Collection<Faculty>> getAllFaculties() {
-        facultyService.getAllFaculties();
-        return ResponseEntity.ok().build();
+        var allFaculties = facultyService.getAllFaculties();
+        return ResponseEntity.ok(allFaculties);
     }
 
+    @GetMapping("/find")
+    public ResponseEntity<Collection<Faculty>> findFacultyByColorOrByNameIgnoreCase(
+            @RequestParam String color,
+            @RequestParam String name) {
+        if (color != null && !color.isBlank()
+                && name != null && !name.isBlank()) {
+            var facultyByColorOrByNameIgnoreCase =
+                    facultyService.findFacultyByColorOrByNameIgnoreCase(color, name);
+            return ResponseEntity.ok(facultyByColorOrByNameIgnoreCase);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 
+//    @GetMapping("/students/{facultyId}")
+//    public ResponseEntity<Collection<Student>> findStudentsByFacultyId(
+//            @PathVariable long facultyId) {
+//        var students = facultyService.getStudents(facultyId);
+//        return ResponseEntity.ok(students);
+//    }
 }

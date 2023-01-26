@@ -7,7 +7,6 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/student")
@@ -24,11 +23,11 @@ public class StudentController {
         return studentService.createStudent(student);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
         var student = studentService.getStudentById(id);
         if (student == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(student);
     }
@@ -37,7 +36,7 @@ public class StudentController {
     public ResponseEntity<Student> editStudent(@RequestBody Student student) {
         var editedStudent = studentService.editStudent(student);
         if (editedStudent == null) {
-            ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(editedStudent);
     }
@@ -49,21 +48,35 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Set<Student>> getStudentsByAge(@RequestParam(required = false) Integer age) {
+    public ResponseEntity<Collection<Student>> getStudentsByAge(
+            @RequestParam(required = false) Integer age) {
         if (age != null) {
             var students = studentService.getStudentsByAge(age);
             if (students.isEmpty()) {
-                ResponseEntity.notFound().build();
+                return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok(students);
         }
-        studentService.getAllStudents();
-        return ResponseEntity.ok().build();
+        var allStudents = studentService.getAllStudents();
+        return ResponseEntity.ok(allStudents);
     }
 
-//    @GetMapping
-//    public ResponseEntity<Collection<Student>> getAllStudents() {
-//        studentService.getAllStudents();
-//        return ResponseEntity.ok().build();
-//    }
+    @GetMapping("/filteredByAgeRange")
+    public ResponseEntity<Collection<Student>> findByAgeBetween(@RequestParam int from,
+                                                                @RequestParam int to) {
+        var ageBetween = studentService.findByAgeBetween(from, to);
+        return ResponseEntity.ok(ageBetween);
+    }
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Collection<Student>> findStudentByFacultyId(@PathVariable long id) {
+        var students = studentService.findByFacultyId(id);
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/faculty/{studentId}")
+    public ResponseEntity<Faculty> findFacultyByStudentId(@PathVariable long studentId) {
+        var faculty = studentService.findFacultyByStudentId(studentId);
+        return ResponseEntity.ok(faculty);
+    }
 }

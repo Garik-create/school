@@ -45,8 +45,17 @@ public class FacultyService {
         return facultyList;
     }
 
-    public Collection<Faculty> getAllFaculties() {
+    public List<Faculty> getAllFaculties() {
         return facultyRepository.findAll();
     }
+
+    public Collection<Faculty> findFacultyByColorOrByNameIgnoreCase(String color, String name) {
+        return facultyRepository.findByColorIgnoreCaseOrNameIgnoreCase(color, name);
+    }
+
+
+//    public Collection<Student> getStudents(long id) {
+//        return facultyRepository.findById(id).get().getStudents().stream().toList();
+//    }
 }
 
