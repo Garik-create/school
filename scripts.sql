@@ -12,3 +12,7 @@ WHERE name  LIKE '%y%';
 SELECT *
 FROM student
 WHERE age < id;
+
+SELECT *
+FROM student
+ORDER BY age;
