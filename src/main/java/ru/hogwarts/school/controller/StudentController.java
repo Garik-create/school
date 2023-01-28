@@ -68,11 +68,11 @@ public class StudentController {
         return ResponseEntity.ok(ageBetween);
     }
 
-    @GetMapping("/find/{id}")
-    public ResponseEntity<Collection<Student>> findStudentByFacultyId(@PathVariable long id) {
-        var students = studentService.findByFacultyId(id);
-        return ResponseEntity.ok(students);
-    }
+//    @GetMapping("/find/{id}")
+//    public ResponseEntity<Collection<Student>> findStudentByFacultyId(@PathVariable long id) {
+//        var students = studentService.findByFacultyId(id);
+//        return ResponseEntity.ok(students);
+//    }
 
     @GetMapping("/faculty/{studentId}")
     public ResponseEntity<Faculty> findFacultyByStudentId(@PathVariable long studentId) {
