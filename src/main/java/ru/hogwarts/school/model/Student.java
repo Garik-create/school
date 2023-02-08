@@ -2,10 +2,11 @@ package ru.hogwarts.school.model;
 
 import javax.persistence.*;
 import java.util.Objects;
+
 @Entity
 public class Student {
-@Id
-@GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private int age;
@@ -13,9 +14,16 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
+    @OneToOne
+//    @JoinColumn(name = "avatar_id")
+    private Avatar avatar;
 
     public Faculty getFaculty() {
         return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     public long getId() {
@@ -47,12 +55,12 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return id == student.id && age == student.age && Objects.equals(name, student.name);
+        return Objects.equals(id, student.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age);
+        return Objects.hash(id);
     }
 
     @Override

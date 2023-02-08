@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,10 +22,15 @@ import java.nio.file.Path;
 public class AvatarController {
     private final AvatarService avatarService;
 
-    //@Autowired
     public AvatarController(AvatarService avatarService) {
         this.avatarService = avatarService;
     }
+
+    //@Autowired
+//    public AvatarController(AvatarService avatarService, AvatarService avatarService) {
+//        this.avatarService = avatarService;
+//        this.avatarService = avatarService;
+//    }
 
     @PostMapping(value = "/{studentId}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> uploadAvatar(@PathVariable Long studentId,

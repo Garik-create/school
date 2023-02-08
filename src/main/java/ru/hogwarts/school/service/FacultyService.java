@@ -24,7 +24,7 @@ public class FacultyService {
     }
 
     public Faculty getFacultyById(long id) {
-        return facultyRepository.findById(id).get();
+        return facultyRepository.findById(id).orElse(null);
     }
 
     public Faculty editFaculty(Faculty faculty) {
@@ -56,7 +56,7 @@ public class FacultyService {
 
 
     public Collection<Student> getStudents(long id) {
-        return facultyRepository.findById(id).get().getStudents().stream().toList();
+        return facultyRepository.findById(id).orElseThrow().getStudents();
     }
 }
 

@@ -17,7 +17,7 @@ public class Avatar {
     @Lob
     private byte[] data;
 
-    @OneToOne
+    @OneToOne/*(mappedBy = "avatar")*/
     private Student student;
 
     public Long getId() {
