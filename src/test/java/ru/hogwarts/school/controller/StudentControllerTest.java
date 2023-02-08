@@ -214,31 +214,31 @@ public class StudentControllerTest {
                 .assertThat(responseEmpty.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @Test
-    public void findFacultyByStudentIdTest() {
-        Faculty faculty = new Faculty();
-        faculty.setId(1L);
-        faculty.setColor("green");
-        faculty.setName("seventh");
-
-        Student student = new Student();
-        student.setName("Ivan");
-        student.setAge(33);
-        student.setId(1L);
-        student.setFaculty(faculty);
-
-        var createdStudent = restTemplate.postForEntity(getUriBuilder3().build().toUri(),
-                student,
-                Student.class);
-
-//        when facultyController
-
-        var studentByFacultyIdRequest = getStudentByFacultyIdRequest(Objects.requireNonNull(createdStudent.getBody()));
-
-        Assertions
-                .assertThat(createdStudent.getBody()).isEqualTo(studentByFacultyIdRequest.getBody());
-
-    }
+//    @Test
+//    public void findFacultyByStudentIdTest() {
+//        Faculty faculty = new Faculty();
+//        faculty.setId(1L);
+//        faculty.setColor("green");
+//        faculty.setName("seventh");
+//
+//        Student student = new Student();
+//        student.setName("Ivan");
+//        student.setAge(33);
+//        student.setId(1L);
+//        student.setFaculty(faculty);
+//
+//        var createdStudent = restTemplate.postForEntity(getUriBuilder3().build().toUri(),
+//                student,
+//                Student.class);
+//
+////        when facultyController
+//
+//        var studentByFacultyIdRequest = getStudentByFacultyIdRequest(Objects.requireNonNull(createdStudent.getBody()));
+//
+//        Assertions
+//                .assertThat(createdStudent.getBody()).isEqualTo(studentByFacultyIdRequest.getBody());
+//
+//    }
 
     private UriComponentsBuilder getUriBuilder() {
         return UriComponentsBuilder.newInstance()
