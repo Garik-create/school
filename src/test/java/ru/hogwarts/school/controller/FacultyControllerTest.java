@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,6 +17,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.service.FacultyService;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -91,7 +93,7 @@ class FacultyControllerTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculty/" + id)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.color").value(color));
@@ -233,7 +235,7 @@ class FacultyControllerTest {
     @Test
     void findStudentsByFacultyId() throws Exception {
 
-        final long facultyId = 1;
+        final Long facultyId = 1L;
         final String name = "first";
         final String color = "orange";
 
@@ -250,14 +252,21 @@ class FacultyControllerTest {
         student2.setId(2);
         student2.setFaculty(faculty);
 
+        faculty.setStudents(Set.of(student1, student2));
+
+        facultyService.createFaculty(faculty);
+
+
         when(facultyRepository.findById(facultyId)).thenReturn(Optional.of(faculty));
 
-        facultyService.getStudents(facultyId);
+//        thenReturn.
+
+//        facultyService.getStudents(facultyId);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculty/students/{facultyId}", facultyId)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(faculty)));
+                .andExpect(content().json(objectMapper.writeValueAsString(List.of(student1, student2))));
     }
 }

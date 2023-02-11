@@ -205,7 +205,7 @@ public class StudentControllerTest {
         Student createdStudent = response.getBody();
 
         assert createdStudent != null;
-        deleteStudentByIdRequest(createdStudent);
+        deleteStudentByIdRequestTest(createdStudent);
 
         URI uri = getUriBuilder().path("/{id}").buildAndExpand(createdStudent.getId()).toUri();
         ResponseEntity<Student> responseEmpty = restTemplate.getForEntity(uri, Student.class);
@@ -227,16 +227,19 @@ public class StudentControllerTest {
         student.setId(1L);
         student.setFaculty(faculty);
 
-        var createdStudent = restTemplate.postForEntity(getUriBuilder3().build().toUri(),
+        facultyController.createFaculty(faculty);
+
+//        var createdStudent = studentController.createStudent(student);
+
+        var createdStudent = restTemplate.postForEntity(getUriBuilder().build().toUri(),
                 student,
                 Student.class);
 
-//        when facultyController
 
-        var studentByFacultyIdRequest = getStudentByFacultyIdRequest(Objects.requireNonNull(createdStudent.getBody()));
+        var facultyByStudentIdRequest = getFacultyByStudentIdRequest(Objects.requireNonNull(createdStudent.getBody()));
 
         Assertions
-                .assertThat(createdStudent.getBody()).isEqualTo(studentByFacultyIdRequest.getBody());
+                .assertThat(createdStudent.getBody().getFaculty()).isEqualTo(facultyByStudentIdRequest.getBody());
 
     }
 
@@ -261,7 +264,7 @@ public class StudentControllerTest {
                 .scheme("Http")
                 .host("localhost")
                 .port(port)
-                .path("/faculty/{studentId}");
+                .path("/student/faculty");
 
     }
 
@@ -305,15 +308,15 @@ public class StudentControllerTest {
         return restTemplate.getForEntity(getUri, Student.class);
     }
 
-    private void deleteStudentByIdRequest(Student createdStudent) {
+    private void deleteStudentByIdRequestTest(Student createdStudent) {
         URI uri = getUriBuilder().path("/{id}").buildAndExpand(createdStudent.getId()).toUri();
         restTemplate.delete(uri);
     }
 
-    private ResponseEntity<Student> getStudentByFacultyIdRequest(Student createdStudent) {
+    private ResponseEntity<Faculty> getFacultyByStudentIdRequest(Student createdStudent) {
         URI uri = getUriBuilder3()
                 .path("/{studentId}")
                 .buildAndExpand(createdStudent.getFaculty().getId()).toUri();
-        return restTemplate.getForEntity(uri, Student.class);
+        return restTemplate.getForEntity(uri, Faculty.class);
     }
 }
