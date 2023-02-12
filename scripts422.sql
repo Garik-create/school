@@ -3,7 +3,7 @@ CREATE TABLE person
     personId       SERIAL PRIMARY KEY,
     name           VARCHAR(20) NOT NULL,
     age            INTEGER CHECK ( age > 0 ),
-    carId          INTEGER     NOT NULL,
+    carId          INTEGER  REFERENCES car (carId)  NOT NULL,
     driverIdExists BOOLEAN     NOT NULL
 );
 
@@ -13,7 +13,7 @@ CREATE TABLE car
     brand    VARCHAR(20) NOT NULL,
     model    VARCHAR(20) NOT NULL,
     price    NUMERIC CHECK ( price > 0 ),
-    personId INTEGER
+    personId INTEGER REFERENCES person (personId)
 );
 
 
