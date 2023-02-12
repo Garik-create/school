@@ -236,10 +236,12 @@ public class StudentControllerTest {
                 Student.class);
 
 
-        var facultyByStudentIdRequest = getFacultyByStudentIdRequest(Objects.requireNonNull(createdStudent.getBody()));
+        var facultyByStudentIdRequest = getFacultyByStudentIdRequest(
+                Objects.requireNonNull(createdStudent.getBody()));
 
         Assertions
-                .assertThat(createdStudent.getBody().getFaculty()).isEqualTo(facultyByStudentIdRequest.getBody());
+                .assertThat(createdStudent.getBody().getFaculty())
+                .isEqualTo(facultyByStudentIdRequest.getBody());
 
     }
 
@@ -316,7 +318,7 @@ public class StudentControllerTest {
     private ResponseEntity<Faculty> getFacultyByStudentIdRequest(Student createdStudent) {
         URI uri = getUriBuilder3()
                 .path("/{studentId}")
-                .buildAndExpand(createdStudent.getFaculty().getId()).toUri();
+                .buildAndExpand(createdStudent.getId()).toUri();
         return restTemplate.getForEntity(uri, Faculty.class);
     }
 }
