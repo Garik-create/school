@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +31,8 @@ public class AvatarService {
 
     private final StudentService studentService;
 
+    Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
     public AvatarService(AvatarRepository avatarRepository, StudentService studentService) {
         this.avatarRepository = avatarRepository;
         this.studentService = studentService;
@@ -39,8 +43,9 @@ public class AvatarService {
 
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
 
+        logger.debug("'uploadAvatar' method was requested for Student with Id: {}", studentId);
+
         Student student = studentService.getStudentById(studentId);
-//        Student student2 = studentRepository.findById(studentId).get();
 
         Path filePath = Path.of(avatarsDir, studentId + "."
                 + getExtensions(avatarFile.getOriginalFilename()));
@@ -69,19 +74,31 @@ public class AvatarService {
     }
 
     private Avatar findAvatarByStudentId(Long id) {
+
+        logger.debug("'findAvatarByStudentId' method was requested for Student with Id: {}", id);
+
         return avatarRepository.findAvatarByStudent_Id(id).orElse(new Avatar());
     }
 
     public Avatar findAvatarByStudentId2(Long id) {
-        return avatarRepository.findAvatarByStudent_Id(id).get();
+
+        logger.debug("'findAvatarByStudentId2' method was requested for Student with Id: {}", id);
+
+        return avatarRepository.findAvatarByStudent_Id(id).orElse(new Avatar());
     }
 
     public Collection<Avatar> getAvatarsOfStudents(Integer pageNumber, Integer pageSize) {
+
+        logger.debug("'getAvatarsOfStudents' method was requested with pageNumber - {} and pageSize - {}", pageNumber, pageSize);
+
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
     }
 
     public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize) {
+
+        logger.debug("'getAllAvatars' method was requested with pageNumber - {} and pageSize - {}", pageNumber, pageSize);
+
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
     }
