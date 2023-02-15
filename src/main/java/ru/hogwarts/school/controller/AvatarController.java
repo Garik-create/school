@@ -71,13 +71,13 @@ public class AvatarController {
 
     }
 
-    @GetMapping("/avatars")
-    public ResponseEntity<Collection<Avatar>> getAvatarsOfStudents(@RequestParam("page") Integer pageNumber,
-                                                                   @RequestParam("size") Integer pageSize) {
-        var avatarsOfStudents = avatarService.getAvatarsOfStudents(pageNumber, pageSize);
-        return ResponseEntity.ok(avatarsOfStudents);
-
-    }
+//    @GetMapping("/avatars")
+//    public ResponseEntity<Collection<Avatar>> getAvatarsOfStudents(@RequestParam("page") Integer pageNumber,
+//                                                                   @RequestParam("size") Integer pageSize) {
+//        var avatarsOfStudents = avatarService.getAvatarsOfStudents(pageNumber, pageSize);
+//        return ResponseEntity.ok(avatarsOfStudents);
+//
+//    }
 
     @GetMapping("/all-avatars")
     public ResponseEntity<List<Avatar>> getAllAvatars(@RequestParam("page") Integer pageNumber,

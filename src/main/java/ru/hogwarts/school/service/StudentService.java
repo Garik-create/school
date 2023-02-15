@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
@@ -23,24 +25,40 @@ public class StudentService {
 
     private final Set<Student> filteredStudent = new HashSet<>();
 
+    Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     public Student createStudent(Student student) {
+
+        logger.debug("'createStudent' method was requested with student {}:", student);
+
         return studentRepository.save(student);
     }
 
     public Student getStudentById(long id) {
+
+        logger.debug("'getStudentById' method was requested with Id {}:", id);
+
         return studentRepository.findById(id).get();
     }
 
     public Student editStudent(Student student) {
+
+        logger.debug("'editStudent' method was requested with student {}:", student);
+
         return studentRepository.save(student);
     }
 
     public void deleteStudent(long id) {
+
+        logger.debug("'deleteStudent' method was requested with Id {}:", id);
+
         studentRepository.deleteById(id);
     }
 
     public Set<Student> getStudentsByAge(int age) {
+
+        logger.debug("'getStudentsByAge' method was requested with Age {}:", age);
+
         filteredStudent.clear();
         Collection<Student> students = getAllStudents();
         for (Student student : students) {
@@ -52,30 +70,44 @@ public class StudentService {
     }
 
     public Collection<Student> getAllStudents() {
+
+        logger.debug("'getAllStudents' method was requested");
+
         return studentRepository.findAll();
     }
 
     public Collection<Student> findByAgeBetween(int min, int max) {
+
+        logger.debug("'findByAgeBetween' method was requested with min age - {} and max age - {}:", min, max);
+
         return studentRepository.findByAgeBetween(min, max);
     }
 
-//    public Collection<Student> findByFacultyId(long facultyId) {
-//        return studentRepository.findStudentsByFaculty_Id(facultyId);
-//    }
-
     public Faculty findFacultyByStudentId(long studentId) {
+
+        logger.debug("'findFacultyByStudentId' method was requested with StudentId {}:", studentId);
+
         return studentRepository.findById(studentId).orElseThrow().getFaculty();
     }
 
     public Integer getAmountOfStudents() {
+
+        logger.debug("'getAmountOfStudents' method was requested");
+
         return studentRepository.getAmountOfStudents();
     }
 
     public Integer getAvgAgeOfStudents() {
+
+        logger.debug("'getAvgAgeOfStudents' method was requested");
+
         return studentRepository.getAvgAgeOfStudents();
     }
 
     public Collection<Student> getLastStudents() {
+
+        logger.debug("'getLastStudents' method was requested");
+
         return studentRepository.getLastStudents();
     }
 }

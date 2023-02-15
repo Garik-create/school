@@ -87,13 +87,13 @@ public class AvatarService {
         return avatarRepository.findAvatarByStudent_Id(id).orElse(new Avatar());
     }
 
-    public Collection<Avatar> getAvatarsOfStudents(Integer pageNumber, Integer pageSize) {
-
-        logger.debug("'getAvatarsOfStudents' method was requested with pageNumber - {} and pageSize - {}", pageNumber, pageSize);
-
-        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
-        return avatarRepository.findAll(pageRequest).getContent();
-    }
+//    public Collection<Avatar> getAvatarsOfStudents(Integer pageNumber, Integer pageSize) {
+//
+//        logger.debug("'getAvatarsOfStudents' method was requested with pageNumber - {} and pageSize - {}", pageNumber, pageSize);
+//
+//        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+//        return avatarRepository.findAll(pageRequest).getContent();
+//    }
 
     public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize) {
 
