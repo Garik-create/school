@@ -214,34 +214,36 @@ public class StudentControllerTest {
                 .assertThat(responseEmpty.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-//    @Test
-//    public void findFacultyByStudentIdTest() {
-//        Faculty faculty = new Faculty();
-//        faculty.setId(1L);
-//        faculty.setColor("green");
-//        faculty.setName("seventh");
-//
-//        Student student = new Student();
-//        student.setName("Ivan");
-//        student.setAge(33);
-//        student.setId(1L);
-//        student.setFaculty(faculty);
-//
-//        facultyController.createFaculty(faculty);
-//
-////        var createdStudent = studentController.createStudent(student);
-//
-//        var createdStudent = restTemplate.postForEntity(getUriBuilder().build().toUri(),
-//                student,
-//                Student.class);
-//
-//
-//        var facultyByStudentIdRequest = getFacultyByStudentIdRequest(Objects.requireNonNull(createdStudent.getBody()));
-//
-//        Assertions
-//                .assertThat(createdStudent.getBody().getFaculty()).isEqualTo(facultyByStudentIdRequest.getBody());
-//
-//    }
+    @Test
+    public void findFacultyByStudentIdTest() {
+        Faculty faculty = new Faculty();
+        faculty.setId(1L);
+        faculty.setColor("green");
+        faculty.setName("seventh");
+
+        Student student = new Student();
+        student.setName("Ivan");
+        student.setAge(33);
+        student.setId(1L);
+        student.setFaculty(faculty);
+
+        facultyController.createFaculty(faculty);
+
+//        var createdStudent = studentController.createStudent(student);
+
+        var createdStudent = restTemplate.postForEntity(getUriBuilder().build().toUri(),
+                student,
+                Student.class);
+
+
+        var facultyByStudentIdRequest = getFacultyByStudentIdRequest(
+                Objects.requireNonNull(createdStudent.getBody()));
+
+        Assertions
+                .assertThat(createdStudent.getBody().getFaculty())
+                .isEqualTo(facultyByStudentIdRequest.getBody());
+
+    }
 
     private UriComponentsBuilder getUriBuilder() {
         return UriComponentsBuilder.newInstance()
@@ -316,7 +318,7 @@ public class StudentControllerTest {
     private ResponseEntity<Faculty> getFacultyByStudentIdRequest(Student createdStudent) {
         URI uri = getUriBuilder3()
                 .path("/{studentId}")
-                .buildAndExpand(createdStudent.getFaculty().getId()).toUri();
+                .buildAndExpand(createdStudent.getId()).toUri();
         return restTemplate.getForEntity(uri, Faculty.class);
     }
 }

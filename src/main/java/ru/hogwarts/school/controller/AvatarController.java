@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -76,5 +77,12 @@ public class AvatarController {
         var avatarsOfStudents = avatarService.getAvatarsOfStudents(pageNumber, pageSize);
         return ResponseEntity.ok(avatarsOfStudents);
 
+    }
+
+    @GetMapping("/all-avatars")
+    public ResponseEntity<List<Avatar>> getAllAvatars(@RequestParam("page") Integer pageNumber,
+                                                      @RequestParam("size") Integer pageSize) {
+        var allAvatarsByPages = avatarService.getAllAvatars(pageNumber, pageSize);
+        return ResponseEntity.ok(allAvatarsByPages);
     }
 }
