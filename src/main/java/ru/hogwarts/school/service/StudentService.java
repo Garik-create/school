@@ -75,17 +75,9 @@ public class StudentService {
         return studentRepository.getAvgAgeOfStudents();
     }
 
-    public List<Student> getStudentByLastIds() {
-        return studentRepository.getStudentByLastIds();
-    }
 
-    public Integer getAmountOfStudents() {
-        return studentRepository.getAmountOfStudents();
-    }
 
-    public Integer getAvgAgeOfStudents() {
-        return studentRepository.getAvgAgeOfStudents();
-    }
+
 
     public Collection<Student> getLastStudents() {
         return studentRepository.getLastStudents();
