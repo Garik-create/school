@@ -8,6 +8,7 @@ import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -63,7 +64,7 @@ public class StudentService {
 //    }
 
     public Faculty findFacultyByStudentId(long studentId) {
-        return studentRepository.findById(studentId).get().getFaculty();
+        return studentRepository.findById(studentId).orElseThrow().getFaculty();
     }
 
     public Integer getAmountOfStudents() {
