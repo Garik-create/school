@@ -78,10 +78,6 @@ class FacultyControllerTest {
         final String color = "black";
         final long id = 1;
 
-//        var facultyObject = new JSONObject();//actual
-//        facultyObject.put("id", id);
-//        facultyObject.put("name", name);
-//        facultyObject.put("color", color);
 
         Faculty faculty = new Faculty();//expected
         faculty.setId(id);

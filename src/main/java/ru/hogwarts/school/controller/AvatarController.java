@@ -28,11 +28,6 @@ public class AvatarController {
         this.avatarService = avatarService;
     }
 
-    //@Autowired
-//    public AvatarController(AvatarService avatarService, AvatarService avatarService) {
-//        this.avatarService = avatarService;
-//        this.avatarService = avatarService;
-//    }
 
     @PostMapping(value = "/{studentId}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> uploadAvatar(@PathVariable Long studentId,

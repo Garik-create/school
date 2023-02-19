@@ -87,7 +87,7 @@ public class StudentService {
 
         logger.debug("'findFacultyByStudentId' method was requested with StudentId {}:", studentId);
 
-        return studentRepository.findById(studentId).orElseThrow().getFaculty();
+        return studentRepository.findById(studentId).get().getFaculty();
     }
 
     public Integer getAmountOfStudents() {

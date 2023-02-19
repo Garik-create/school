@@ -26,7 +26,6 @@ import java.util.Objects;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
 public class StudentControllerTest {
-
     @LocalServerPort
     private int port;
 
@@ -318,7 +317,7 @@ public class StudentControllerTest {
     private ResponseEntity<Faculty> getFacultyByStudentIdRequest(Student createdStudent) {
         URI uri = getUriBuilder3()
                 .path("/{studentId}")
-                .buildAndExpand(createdStudent.getFaculty().getId()).toUri();
+                .buildAndExpand(createdStudent.getId()).toUri();
         return restTemplate.getForEntity(uri, Faculty.class);
     }
 }
