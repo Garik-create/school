@@ -9,9 +9,10 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -87,7 +88,7 @@ public class StudentService {
 
         logger.debug("'findFacultyByStudentId' method was requested with StudentId {}:", studentId);
 
-        return studentRepository.findById(studentId).get().getFaculty();
+        return studentRepository.findById(studentId).orElseThrow().getFaculty();
     }
 
     public Integer getAmountOfStudents() {

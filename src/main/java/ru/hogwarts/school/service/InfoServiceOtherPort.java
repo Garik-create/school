@@ -1,3 +1,4 @@
+/*
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -5,7 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile("otherPort")
+//@Profile("otherPort")
 public class InfoServiceOtherPort implements InfoService {
 
     @Value("${server.port}")
@@ -16,3 +17,4 @@ public class InfoServiceOtherPort implements InfoService {
         return serverPort;
     }
 }
+*/
