@@ -97,7 +97,7 @@ public class StudentService {
         return studentRepository.getAmountOfStudents();
     }
 
-    public Integer getAvgAgeOfStudents() {
+    public Double getAvgAgeOfStudents() {
 
         logger.debug("'getAvgAgeOfStudents' method was requested");
 
@@ -119,6 +119,12 @@ public class StudentService {
                 .filter(s -> s.startsWith(newLiter))
                 .sorted()
                 .collect(Collectors.toList());
+    }
+
+    public Double getAvgAgeOfStudents2() {
+        return studentRepository.findAll().stream()
+                .mapToInt(Student::getAge)
+                .average().orElseThrow();
     }
 }
 

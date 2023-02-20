@@ -83,8 +83,8 @@ public class StudentController {
     }
 
     @GetMapping("/average")
-    public ResponseEntity<Integer> getAvgAgeOfStudents() {
-        Integer avgAgeOfStudents = studentService.getAvgAgeOfStudents();
+    public ResponseEntity<Double> getAvgAgeOfStudents() {
+        Double avgAgeOfStudents = studentService.getAvgAgeOfStudents();
         return ResponseEntity.ok(avgAgeOfStudents);
     }
 
@@ -99,5 +99,11 @@ public class StudentController {
             @RequestParam(required = false) String liter) {
         var studentsByLiteral = studentService.getStudentsByLiteral(liter);
         return ResponseEntity.ok(studentsByLiteral);
+    }
+
+    @GetMapping("/avgAge")
+    public ResponseEntity<Double> getAvgAgeOfStudents2() {
+        var age = studentService.getAvgAgeOfStudents2();
+        return ResponseEntity.ok(age);
     }
 }
