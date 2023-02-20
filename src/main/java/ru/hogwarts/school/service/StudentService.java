@@ -128,6 +128,13 @@ public class StudentService {
                 .mapToInt(Student::getAge)
                 .average().orElseThrow();
     }
+
+    public void getStudentNamesGroupedByStreams() {
+        var studentNames = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .toList();
+        new Thread();
+    }
 }
 
 

@@ -106,4 +106,9 @@ public class StudentController {
         var age = studentService.getAvgAgeOfStudents2();
         return ResponseEntity.ok(age);
     }
+
+    @GetMapping("/streams")
+    public void getStudentNamesGroupedByStreams() {
+        studentService.getStudentNamesGroupedByStreams();
+    }
 }
