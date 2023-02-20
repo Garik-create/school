@@ -3,15 +3,15 @@ package ru.hogwarts.school.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -62,7 +62,7 @@ public class StudentService {
         filteredStudent.clear();
         Collection<Student> students = getAllStudents();
         for (Student student : students) {
-            if (student.getAge()==age) {
+            if (student.getAge() == age) {
                 filteredStudent.add(student);
             }
         }
@@ -109,6 +109,16 @@ public class StudentService {
         logger.debug("'getLastStudents' method was requested");
 
         return studentRepository.getLastStudents();
+    }
+
+    public List<String> getStudentsByLiteral(String liter) {
+        String newLiter = "A";
+        return studentRepository.findAll().stream()
+                .map(Student::getName)
+                .map(String::toUpperCase)
+                .filter(s -> s.startsWith(newLiter))
+                .sorted()
+                .collect(Collectors.toList());
     }
 }
 

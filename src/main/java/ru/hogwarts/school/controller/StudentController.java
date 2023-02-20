@@ -7,6 +7,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -91,5 +92,12 @@ public class StudentController {
     public ResponseEntity<Collection<Student>> getLastStudents() {
         var lastFiveStudents = studentService.getLastStudents();
         return ResponseEntity.ok(lastFiveStudents);
+    }
+
+    @GetMapping("/filtered")
+    public ResponseEntity<List<String>> findStudentsByFirstLiteral(
+            @RequestParam(required = false) String liter) {
+        var studentsByLiteral = studentService.getStudentsByLiteral(liter);
+        return ResponseEntity.ok(studentsByLiteral);
     }
 }
