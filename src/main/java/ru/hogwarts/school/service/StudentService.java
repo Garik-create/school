@@ -25,7 +25,7 @@ public class StudentService {
 
     private final Set<Student> filteredStudent = new HashSet<>();
 
-    Logger logger = LoggerFactory.getLogger(StudentService.class);
+    private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     public Student createStudent(Student student) {
 
@@ -87,7 +87,7 @@ public class StudentService {
 
         logger.debug("'findFacultyByStudentId' method was requested with StudentId {}:", studentId);
 
-        return studentRepository.findById(studentId).get().getFaculty();
+        return studentRepository.findById(studentId).orElseThrow().getFaculty();
     }
 
     public Integer getAmountOfStudents() {

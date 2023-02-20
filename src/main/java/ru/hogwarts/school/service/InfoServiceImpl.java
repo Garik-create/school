@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-@Profile("!otherPort")
+//@Profile("!otherPort")
 public class InfoServiceImpl implements InfoService{
 
     @Value("${server.port}")
