@@ -108,7 +108,12 @@ public class StudentController {
     }
 
     @GetMapping("/streams")
-    public void getStudentNamesGroupedByStreams() {
+    public void getStudentNamesGroupedByStreams() throws InterruptedException {
         studentService.getStudentNamesGroupedByStreams();
+    }
+
+    @GetMapping("/streamSync")
+    public void getStudentNamesGroupedByStreamsSync() throws InterruptedException {
+        studentService.getStudentNamesGroupedByStreamsSync();
     }
 }

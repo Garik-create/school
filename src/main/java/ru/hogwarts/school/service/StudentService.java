@@ -2,6 +2,7 @@ package ru.hogwarts.school.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -129,12 +130,56 @@ public class StudentService {
                 .average().orElseThrow();
     }
 
-    public void getStudentNamesGroupedByStreams() {
-        var studentNames = studentRepository.findAll().stream()
+    public void getStudentNamesGroupedByStreams() throws InterruptedException {
+        List<String> studentNames = studentRepository.findAll(PageRequest.of(0, 6))
+                .getContent().stream()
                 .map(Student::getName)
                 .toList();
-        new Thread();
+
+        printList(studentNames.subList(0, 2));
+        new Thread(() -> {
+            printList(studentNames.subList(2, 4));
+        }).start();
+        Thread.sleep(1);
+
+        new Thread(() -> {
+            printList(studentNames.subList(4, 6));
+        }).start();
+        Thread.sleep(2);
+
     }
+
+    public void getStudentNamesGroupedByStreamsSync() throws InterruptedException {
+        List<String> studentNames = studentRepository.findAll(PageRequest.of(0, 6))
+                .getContent().stream()
+                .map(Student::getName)
+                .toList();
+
+        printListSync(studentNames.subList(0, 2));
+        new Thread(() -> {
+            printListSync(studentNames.subList(2, 4));
+        }).start();
+        Thread.sleep(1);
+
+        new Thread(() -> {
+            printListSync(studentNames.subList(4, 6));
+        }).start();
+        Thread.sleep(2);
+    }
+
+    public void printList(List<String> names) {
+        for (String name : names) {
+            System.out.println(name);
+        }
+    }
+
+    public synchronized void printListSync(List<String> names) {
+        for (String name : names) {
+            System.out.println(name);
+        }
+    }
+
+
 }
 
 
